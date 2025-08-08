@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý người dùng</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+      background-color: #f0f0f0;
+    }
+
+    h2 {
+      color: #1d2b64;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #1d2b64;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      margin: 2px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-delete {
+      background: #e53935;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background: #c62828;
+    }
+
+    .btn-add {
+      display: inline-block;
+      margin: 20px 10px 30px 0;
+      padding: 10px 16px;
+      background: #1d2b64;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .btn-add:hover {
+      background: #162054;
+    }
+
+    .eye-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-left: 6px;
+    }
+
+    .password-cell {
+      display: flex;
+      align-items: center;
+    }
+
+    input[readonly] {
+      border: none;
+      background: transparent;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <h2>📋 Quản lý người dùng</h2>
+
+  <a class="btn-add" href="{{ url_for('add_admin') }}">➕ Thêm admin mới</a>
+  <a class="btn-add" href="{{ url_for('admin_panel') }}">⬅ Trở về</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tên người dùng</th>
+        <th>Vai trò</th>
+        <th>Mật khẩu</th>
+        <th>Hành động</th>
+        <th>Đổi mật khẩu</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for username, info in users.items() %}
+      <tr>
+        <td>{{ username }}</td>
+        <td>{{ info.role }}</td>
+        <td>
+          <div class="password-cell">
+            <input type="password" value="{{ info.password }}" readonly id="pw-{{ loop.index }}">
+            <button class="eye-btn" onclick="togglePassword({{ loop.index }})">👁</button>
+          </div>
+        </td>
+        <td>
+          {% if info.role != 'admin' or total_admins > 1 %}
+            <form action="{{ url_for('delete_user', username=username) }}" method="POST" style="display:inline">
+              <button class="btn btn-delete" onclick="return confirm('Xóa người dùng {{ username }}?')">Xóa</button>
+            </form>
+          {% else %}
+            <em>Khoá admin duy nhất</em>
+          {% endif %}
+        </td>
+        <td>
+  <a href="{{ url_for('doi_mat_khau_user', username=username) }}" class="btn btn-add">Đổi</a>
+</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    function togglePassword(index) {
+      const input = document.getElementById("pw-" + index);
+      if (input.type === "password") {
+        input.type = "text";
+      } else {
+        input.type = "password";
+      }
+    }
+  </script>
+</body>
+</html>

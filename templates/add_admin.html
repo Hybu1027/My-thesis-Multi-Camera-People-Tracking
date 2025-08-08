@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>➕ Tạo tài khoản mới</title>
+  <title>➕ Thêm Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
@@ -47,7 +47,7 @@
     button {
       width: 100%;
       padding: 12px;
-      background-color: #28a745;
+      background-color: #1d2b64;
       color: white;
       font-size: 16px;
       border: none;
@@ -57,7 +57,7 @@
     }
 
     button:hover {
-      background-color: #218838;
+      background-color: #162054;
     }
 
     a {
@@ -82,37 +82,20 @@
 
 <body>
   <div class="form-container">
-    <h2>➕ Tạo tài khoản mới</h2>
+    <h2>➕ Thêm admin mới</h2>
 
     {% if error %}
       <div class="error">{{ error }}</div>
     {% endif %}
-    <div id="password-error" class="error" style="display: none;">Mật khẩu xác nhận không khớp!</div>
 
-    <form method="POST" onsubmit="return checkPasswordsMatch()">
-      <input name="username" placeholder="Tên người dùng" required><br>
-      <input id="password" name="password" type="password" placeholder="Mật khẩu" required><br>
-      <input id="confirm" name="confirm" type="password" placeholder="Xác nhận lại mật khẩu" required><br>
-      <button type="submit">Tạo tài khoản</button>
+    <form method="POST">
+      <input name="username" placeholder="Tên admin mới" required><br>
+      <input name="password" type="password" placeholder="Mật khẩu admin mới" required><br>
+      <input name="confirm_password" type="password" placeholder="Xác nhận mật khẩu admin tồn tại" required><br>
+      <button type="submit">Tạo admin</button>
     </form>
 
-    <a href="{{ url_for('login') }}">⬅ Quay lại đăng nhập</a>
+    <a href="{{ url_for('quan_ly_user') }}">⬅ Quay lại quản lý users</a>
   </div>
-
-  <script>
-    function checkPasswordsMatch() {
-      const pass = document.getElementById('password').value;
-      const confirm = document.getElementById('confirm').value;
-      const errorBox = document.getElementById('password-error');
-
-      if (pass !== confirm) {
-        errorBox.style.display = 'block';
-        return false;
-      }
-
-      errorBox.style.display = 'none';
-      return true;
-    }
-  </script>
 </body>
 </html>

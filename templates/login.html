@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Đăng nhập hệ thống</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
@@ -127,7 +128,7 @@
 
     <form method="POST">
       <input type="text" name="username" placeholder="Tên đăng nhập" required>
-      <input type="password" name="password" placeholder="Mật khẩu" required>
+      <input type="password" name="password" placeholder="Mật khẩu" required><br>
       <button type="submit">Đăng nhập</button>
     </form>
 
@@ -151,127 +152,158 @@
   </script>
 
   <!-- 🌐 Chatbox UI Fixed -->
-  <div id="chat-container">
-    <div id="chat-header">🎯 Trợ lý giám sát AI</div>
-    <div id="chat-body">
-      <div class="bot-msg"><strong>AI:</strong> Chào mừng bạn đến với hệ thống giám sát nhiều camera 👁️👁️</div>
-    </div>
-    <div id="chat-input-area">
-      <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." />
-      <button onclick="sendChat()">Gửi</button>
-    </div>
+<div id="chat-toggle-btn" onclick="toggleChat()">💬</div>
+
+<div id="chat-container">
+  <div id="chat-header">🎯 Trợ lý giám sát AI</div>
+  <div id="chat-body">
+    <div class="bot-msg"><strong>AI:</strong> Chào mừng bạn đến với hệ thống giám sát nhiều camera. Tôi có thể giúp gì cho bạn🥰.</div>
   </div>
+  <div id="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." />
+    <button onclick="sendChat()">Gửi</button>
+  </div>
+</div>
 
-  <style>
-    #chat-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 340px;
-      max-height: 480px;
-      background: #ffffff;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      font-family: 'Segoe UI', sans-serif;
-      z-index: 9998;
-      overflow: hidden;
-    }
+<style>
+  #chat-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1d2b64;
+    color: white;
+    padding: 12px 14px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s;
+  }
 
-    #chat-header {
-      background: linear-gradient(135deg, #1d2b64, #f8cdda);
-      color: white;
-      padding: 12px;
-      font-weight: bold;
-      text-align: center;
-      font-size: 16px;
-    }
+  #chat-toggle-btn:hover {
+    background: #162054;
+  }
 
-    #chat-body {
-      padding: 10px;
-      overflow-y: auto;
-      flex: 1;
-      font-size: 14px;
-      background-color: #fefefe;
-    }
+  #chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 340px;
+    max-height: 480px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 9998;
+    overflow: hidden;
+  }
 
-    .bot-msg, .user-msg {
-      margin-bottom: 10px;
-      line-height: 1.4;
-      word-wrap: break-word;
-    }
+  #chat-header {
+    background: linear-gradient(135deg, #1d2b64, #f8cdda);
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+  }
 
-    .bot-msg {
-      background: #f1f1f1;
-      padding: 8px 10px;
-      border-radius: 8px;
-      color: #333;
-    }
+  #chat-body {
+    padding: 10px;
+    overflow-y: auto;
+    flex: 1;
+    font-size: 14px;
+    background-color: #fefefe;
+  }
 
-    .user-msg {
-      background: #d2e3fc;
-      padding: 8px 10px;
-      border-radius: 8px;
-      text-align: right;
-      color: #111;
-    }
+  .bot-msg, .user-msg {
+    margin-bottom: 10px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
 
-    #chat-input-area {
-      display: flex;
-      border-top: 1px solid #ccc;
-      background: #fff;
-    }
+  .bot-msg {
+    background: #f1f1f1;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: #333;
+  }
 
-    #chat-input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-      border-bottom-left-radius: 12px;
-      border-right: 1px solid #ccc;
-    }
+  .user-msg {
+    background: #d2e3fc;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-align: right;
+    color: #111;
+  }
 
-    #chat-input-area button {
-      width: 80px;
-      background-color: #1d2b64;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-bottom-right-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      font-size: 14px;
-    }
+  #chat-input-area {
+    display: flex;
+    border-top: 1px solid #ccc;
+    background: #fff;
+  }
 
-    #chat-input-area button:hover {
-      background-color: #162054;
-    }
-  </style>
+  #chat-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    border-bottom-left-radius: 12px;
+    border-right: 1px solid #ccc;
+  }
 
-  <script>
-    async function sendChat() {
-      const input = document.getElementById("chat-input");
-      const body = document.getElementById("chat-body");
-      const msg = input.value.trim();
-      if (!msg) return;
+  #chat-input-area button {
+    width: 80px;
+    background-color: #1d2b64;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-bottom-right-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 14px;
+  }
 
-      body.innerHTML += `<div class="user-msg"><strong>Bạn:</strong> ${msg}</div>`;
-      input.value = "";
-      body.scrollTop = body.scrollHeight;
+  #chat-input-area button:hover {
+    background-color: #162054;
+  }
+</style>
 
-      const res = await fetch("/chat-api", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg })
-      });
+<script>
+  async function sendChat() {
+    const input = document.getElementById("chat-input");
+    const body = document.getElementById("chat-body");
+    const msg = input.value.trim();
+    if (!msg) return;
 
-      const data = await res.json();
-      body.innerHTML += `<div class="bot-msg"><strong>AI:</strong> ${data.reply}</div>`;
-      body.scrollTop = body.scrollHeight;
-    }
-  </script>
+    body.innerHTML += `<div class="user-msg"><strong>Bạn:</strong> ${msg}</div>`;
+    input.value = "";
+    body.scrollTop = body.scrollHeight;
+
+    const res = await fetch("/chat-api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: msg })
+    });
+
+    const data = await res.json();
+    body.innerHTML += `<div class="bot-msg"><strong>AI:</strong> ${data.reply}</div>`;
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function toggleChat() {
+    const chat = document.getElementById("chat-container");
+    chat.style.display = (chat.style.display === "none" || chat.style.display === "") ? "flex" : "none";
+  }
+
+  window.onload = () => {
+    document.getElementById("chat-container").style.display = "none";
+  };
+</script>
+
 </body>
 </html>

@@ -1,0 +1,42 @@
+@media (max-width: 480px) {
+  .login-box {
+    padding: 20px;
+    width: 95%;
+  }
+
+  #chat-container {
+    width: 95%;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  #chat-input-area button {
+    width: 60px;
+    font-size: 12px;
+  }
+
+  #chat-input {
+    font-size: 12px;
+  }
+
+  #datetime-box {
+    font-size: 12px;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+  }
+}
+
+.camera-box {
+  flex: 1;
+  height: 360px;  /* hoặc 480px tùy bạn */
+  background: white;
+  border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  overflow: hidden;
+}
+
+
