@@ -1,0 +1,14 @@
+{
+    "hybu102": {
+        "password": "020702",
+        "role": "admin"
+    },
+    "guess": {
+        "password": "123",
+        "role": "user"
+    },
+    "khonha": {
+        "password": "123",
+        "role": "user"
+    }
+}

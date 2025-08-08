@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập hệ thống</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Roboto', sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #1d2b64, #f8cdda, #1fa2ff, #a1c4fd);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .login-box {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    h2 {
+      margin-bottom: 24px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1d2b64;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #162054;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 12px;
+    }
+
+    .link {
+      margin-top: 16px;
+    }
+
+    .link a {
+      color: #1d2b64;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+
+    /* 🔥 Hiển thị thời gian góc trái trên */
+    #datetime-box {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+      z-index: 9999;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="datetime-box"></div>
+
+  <div class="login-box">
+    <h2>Đăng nhập</h2>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <input type="text" name="username" placeholder="Tên đăng nhập" required>
+      <input type="password" name="password" placeholder="Mật khẩu" required>
+      <button type="submit">Đăng nhập</button>
+    </form>
+
+    <div class="link">
+      <p>Chưa có tài khoản? <a href="{{ url_for('add_user') }}">Tạo tài khoản mới</a></p>
+    </div>
+  </div>
+
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+      const day = days[now.getDay()];
+      const date = now.toLocaleDateString('vi-VN');
+      const time = now.toLocaleTimeString('vi-VN');
+      document.getElementById("datetime-box").innerText = `${day}, ${date} - ${time}`;
+    }
+
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+  </script>
+
+  <!-- 🌐 Chatbox UI Fixed -->
+  <div id="chat-container">
+    <div id="chat-header">🎯 Trợ lý giám sát AI</div>
+    <div id="chat-body">
+      <div class="bot-msg"><strong>AI:</strong> Chào mừng bạn đến với hệ thống giám sát nhiều camera 👁️👁️</div>
+    </div>
+    <div id="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Nhập câu hỏi..." />
+      <button onclick="sendChat()">Gửi</button>
+    </div>
+  </div>
+
+  <style>
+    #chat-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 340px;
+      max-height: 480px;
+      background: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      font-family: 'Segoe UI', sans-serif;
+      z-index: 9998;
+      overflow: hidden;
+    }
+
+    #chat-header {
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #chat-body {
+      padding: 10px;
+      overflow-y: auto;
+      flex: 1;
+      font-size: 14px;
+      background-color: #fefefe;
+    }
+
+    .bot-msg, .user-msg {
+      margin-bottom: 10px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .bot-msg {
+      background: #f1f1f1;
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: #333;
+    }
+
+    .user-msg {
+      background: #d2e3fc;
+      padding: 8px 10px;
+      border-radius: 8px;
+      text-align: right;
+      color: #111;
+    }
+
+    #chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+      background: #fff;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      border-bottom-left-radius: 12px;
+      border-right: 1px solid #ccc;
+    }
+
+    #chat-input-area button {
+      width: 80px;
+      background-color: #1d2b64;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-bottom-right-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 14px;
+    }
+
+    #chat-input-area button:hover {
+      background-color: #162054;
+    }
+  </style>
+
+  <script>
+    async function sendChat() {
+      const input = document.getElementById("chat-input");
+      const body = document.getElementById("chat-body");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      body.innerHTML += `<div class="user-msg"><strong>Bạn:</strong> ${msg}</div>`;
+      input.value = "";
+      body.scrollTop = body.scrollHeight;
+
+      const res = await fetch("/chat-api", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg })
+      });
+
+      const data = await res.json();
+      body.innerHTML += `<div class="bot-msg"><strong>AI:</strong> ${data.reply}</div>`;
+      body.scrollTop = body.scrollHeight;
+    }
+  </script>
+</body>
+</html>

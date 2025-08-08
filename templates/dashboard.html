@@ -1,0 +1,5 @@
+<h2>Xin chào {{ user }} ({{ role }})</h2>
+{% if role == 'admin' %}
+    <a href="{{ url_for('admin_panel') }}">🔧 Quản trị hệ thống</a><br>
+{% endif %}
+<a href="{{ url_for('logout') }}">Đăng xuất</a>
